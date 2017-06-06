@@ -75,29 +75,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         //initial marker
-        LatLng tucson = new LatLng(32.2217, -110.9625);
-        mMap.addMarker(new MarkerOptions().position(tucson).title("Born here"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(tucson));
+        LatLng birth = new LatLng(34.0522, -118.2437);
+        mMap.addMarker(new MarkerOptions().position(birth).title("Born here"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(birth));
         Log.d("My Map", "home location works");
 
         //current location using GPS, not LocationManager
-  /*      if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("My Map", "Permission failed, asking for fine permission now");
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 4);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("My Map", "Permission failed, asking for coarse permission now");
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, 4);
-        }
-        mMap.setMyLocationEnabled(true);
-        Log.d("My Map", "Current Location dropped"); */
+ /*      if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+           Log.d("My Map", "Permission failed, asking for fine permission now");
+           ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 4);
+       }
+       if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+           Log.d("My Map", "Permission failed, asking for coarse permission now");
+           ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, 4);
+       }
+       mMap.setMyLocationEnabled(true);
+       Log.d("My Map", "Current Location dropped"); */
 
         //(line below is wrong, deprecated method)
-      /*  Location location = googleMap.getMyLocation();
-        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        Log.d("My Map", "current location retrieved");
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are here"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation)); */
+     /*  Location location = googleMap.getMyLocation();
+       LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+       Log.d("My Map", "current location retrieved");
+       mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are here"));
+       mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation)); */
     }
 
     //changes the map type from "normal" to "satellite" view
@@ -122,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             //get network status
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            if(isNetworkEnabled == true) {
+            if (isNetworkEnabled == true) {
                 Log.d("MyMaps", "getLocation: Network is enabled");
             }
 
@@ -146,9 +146,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BETWEEN_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListenerGPS);
                     Log.d("MyMaps", "getLocation: GPS update request is happening");
                     Toast.makeText(this, "Currently Using GPS", Toast.LENGTH_SHORT).show();
-                    /*if (dotColor == true) {
-                        dotColor = false;
-                    } */
+                   /*if (dotColor == true) {
+                       dotColor = false;
+                   } */
                 }
                 if (isNetworkEnabled == true) {
                     Log.d("MyMaps", "getLocation: Network enabled & requesting location updates");
@@ -193,11 +193,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 e.printStackTrace();
             }
             Address address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Search Results"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            if(Math.abs(address.getLatitude() - myLocation.getLatitude()) <= (5 * 0.01666) && Math.abs(address.getLatitude() - myLocation.getLatitude()) <= 5 * 0.01666){
+                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Search Results"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            }else if(address !=null) {
+                Toast.makeText(this, "Not Within 5 Mile Radius", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
+
+    //public void searchPlaces(View view) {
+        //EditText locationSearch = (EditText) findViewById(R.id.searchField);
+       // String location = locationSearch.getText().toString();
+       // List<Address> addressList = null;
+
+       // if (location != null || !location.equals("")) {
+            //Geocoder geocoder = new Geocoder(this);
+            //try {
+                //addressList = geocoder.getFromLocationName(location, 1);
+
+            //} catch (IOException e) {
+                //e.printStackTrace();
+            //}
+            //Address address = addressList.get(0);
+            //LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            //mMap.addMarker(new MarkerOptions().position(latLng).title("Search Results"));
+            //mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+       // }
+    //}
 
     LocationListener locationListenerGPS = new LocationListener() {
         @Override
@@ -211,6 +236,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d("MyMaps", "called dropmarker() method from GPS");
 
             // disable network updates (see locationManager API to remove updates)
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             locationManager.removeUpdates(locationListenerNetwork);
             dotColor = true;
 
@@ -332,11 +367,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //dotColor determines whether device is using network or GPS and changes the color accordingly
 
             if (dotColor == true) {
-                myCircle = mMap.addCircle(new CircleOptions().center(userLocation).radius(1).strokeColor(Color.MAGENTA).strokeWidth(2).fillColor(Color.MAGENTA));
-                Log.d("MyMaps", "magenta dot laid for GPS");
+                myCircle = mMap.addCircle(new CircleOptions().center(userLocation).radius(1).strokeColor(Color.RED).strokeWidth(2).fillColor(Color.RED));
+                Log.d("MyMaps", "Red dot laid for GPS");
             } else if (dotColor == false) {
-                myCircle = mMap.addCircle(new CircleOptions().center(userLocation).radius(1).strokeColor(Color.GREEN).strokeWidth(2).fillColor(Color.GREEN));
-                Log.d("MyMaps", "green dot laid for network");
+                myCircle = mMap.addCircle(new CircleOptions().center(userLocation).radius(1).strokeColor(Color.BLUE).strokeWidth(2).fillColor(Color.BLUE));
+                Log.d("MyMaps", "Blue dot laid for network");
             }
 
 
@@ -354,7 +389,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
 }
+
+
 
 
 

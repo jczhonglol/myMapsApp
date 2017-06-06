@@ -5,48 +5,56 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:layout_gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/searchButton"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:onClick="searchPlaces"
-            android:text="Search"
-            android:layout_weight="1.04" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/searchField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="searchPlaces"
+                android:text="S" />
+
+            <Button
+                android:id="@+id/changeViewButton"
+                android:layout_width="37dp"
+                android:layout_height="wrap_content"
+                android:onClick="changeMapType"
+                android:text="V" />
+
+            <Button
+                android:id="@+id/clear_markers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="clearOverlays"
+                android:text="C" />
+
+            <Button
+                android:id="@+id/trackMe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="trackMe"
+                android:text="T" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/searchField"
-        android:layout_width="386dp"
-        android:layout_height="22dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/clear_markers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="clearOverlays"
-        android:text="Clear" />
-
-    <Button
-        android:id="@+id/changeViewButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="changeMapType"
-        android:text="Switch View" />
-
-    <Button
-        android:id="@+id/trackMe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:onClick="trackMe"
-        android:text="Track Me" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -57,10 +65,6 @@
         android:layout_height="match_parent"
         tools:context="com.example.simon.googlemapsapp.MapsActivity" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></LinearLayout>
-
 
 </LinearLayout>
+
