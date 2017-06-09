@@ -14,21 +14,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/searchField"
+            <Button
+                android:id="@+id/trackMe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:onClick="trackMe"
+                android:text="Trk" />
 
             <Button
-                android:id="@+id/searchButton"
+                android:id="@+id/clear_markers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="searchPlaces"
-                android:text="S" />
+                android:onClick="clearOverlays"
+                android:text="Clr" />
 
             <Button
                 android:id="@+id/changeViewButton"
@@ -38,20 +38,20 @@
                 android:text="V" />
 
             <Button
-                android:id="@+id/clear_markers"
-                android:layout_width="wrap_content"
+                android:id="@+id/searchButton"
+                android:layout_width="43dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="clearOverlays"
-                android:text="C" />
+                android:onClick="searchPlaces"
+                android:text="S" />
 
-            <Button
-                android:id="@+id/trackMe"
+            <EditText
+                android:id="@+id/searchField"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="trackMe"
-                android:text="T" />
+                android:ems="10"
+                android:inputType="textPersonName" />
+
         </LinearLayout>
 
     </LinearLayout>
